@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import 'antd/dist/antd.css'
-import { Input , Button , List } from 'antd'
 import store from './store'
-import { changeInputAction , addItem , deletItem} from './store/actionCreator'
-
+import { changeInputAction , addItem , deleteItem} from './store/actionCreator'
+import TodoListUI from './TodoListUi'
+import axios from 'axios'
 
 class TodoList extends Component {
     constructor(props) {
@@ -14,30 +13,25 @@ class TodoList extends Component {
        
         this.clickBtn=this.clickBtn.bind(this)
         store.subscribe(this.storeChange)
+
+        this.deletItem=this.deletItem.bind(this)
     }
     render() { 
         return ( 
-            <div style={{margin:'10px'}}>
-                <div>
-                    <Input 
-                    placeholder={this.state.inputValue} 
-                    style={{ width:'250px', marginRight:'10px'}}
-                    onChange={this.changeInputValue}
-                    />
-                    <Button 
-                    type="primary" 
-                    onClick={this.clickBtn}>增加</Button>
-                </div>
-                <div style={{margin:'10px',width:'300px'}}>
-                    <List
-                        bordered
-                        dataSource={this.state.list}
-                        renderItem={(item,index)=>(<List.Item onClick={this.deletItem.bind(this,index)}>{item}</List.Item>)}
-                    />    
-                </div>
-            </div>
+            <TodoListUI
+            inputValue={this.state.inputValue}
+            list={this.state.list}
+            changeInputValue={this.changeInputValue}
+            clickBtn={this.clickBtn}
+            deletItem={this.deletItem}
+            />
          );
 
+    }
+    componentDidMount(){
+        axios.get('https://www.easy-mock.com/mock/5cfcce489dc7c36bd6da2c99/xiaojiejie/getList').then((res)=>{
+            console.log(res)
+        })
     }
     changeInputValue(e){
         const action =changeInputAction(e.target.value)
@@ -52,7 +46,7 @@ class TodoList extends Component {
         store.dispatch(action)
     }
     deletItem(index){
-        const action = deletItem(index)
+        const action = deleteItem(index)
         store.dispatch(action)
     }
 }

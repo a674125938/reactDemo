@@ -8,7 +8,7 @@ export const addItem = ()=>({
     type:ADD_ITEM
    
 })
-export const deletItem = (index)=>({
+export const deleteItem = (index)=>({
     type:DELETE_ITEM,
     index
 })
