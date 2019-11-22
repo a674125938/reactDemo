@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import TodoList from './TodoList';
+import AppRouter from './AppRouter'
 
-ReactDOM.render(<TodoList />, document.getElementById('root'));
+
+ReactDOM.render(<AppRouter />, document.getElementById('root'));
 
